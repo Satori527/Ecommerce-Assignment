@@ -3,14 +3,14 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
 
-import analyticsRoutes from "../routes/analytics.route.js";
-import authRoutes from "../routes/auth.route.js";
-import cartRoutes from "../routes/cart.route.js";
-import couponRoutes from "../routes/coupon.route.js";
-import paymentRoutes from "../routes/payment.route.js";
-import productRoutes from "../routes/product.route.js";
+import analyticsRoutes from "../src/routes/analytics.route.js";
+import authRoutes from "../src/routes/auth.route.js";
+import cartRoutes from "../src/routes/cart.route.js";
+import couponRoutes from "../src/routes/coupon.route.js";
+import paymentRoutes from "../src/routes/payment.route.js";
+import productRoutes from "../src/routes/product.route.js";
 
-import { connectDB } from "../lib/db.js";
+import { connectDB } from "../src/lib/db.js";
 
 // dotenv.config(
 // 	{

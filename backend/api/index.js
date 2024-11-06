@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
 
-import analyticsRoutes from "../src/routes/analytics.route.js";
 import authRoutes from "../src/routes/auth.route.js";
 import cartRoutes from "../src/routes/cart.route.js";
 import couponRoutes from "../src/routes/coupon.route.js";
@@ -31,7 +30,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
-app.use("/api/analytics", analyticsRoutes);
+
 
 // if (process.env.NODE_ENV === "production") {
 // 	app.use(express.static(path.join(__dirname, "/frontend/dist")));

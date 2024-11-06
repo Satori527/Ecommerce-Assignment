@@ -1,11 +1,10 @@
-import { Lock, LogIn, LogOut, ShoppingBagIcon, ShoppingCart, UserPlus } from "lucide-react";
+import { LogIn, LogOut, ShoppingBagIcon, ShoppingCart, UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../stores/useCartStore";
 import { useUserStore } from "../stores/useUserStore";
 
 const Navbar = () => {
 	const { user, logout } = useUserStore();
-	const isAdmin = user?.role === "admin";
 	const { cart, totalItems } = useCartStore();
 
 	return (
@@ -49,16 +48,7 @@ const Navbar = () => {
 								)}
 							</Link>
 						)}
-						{isAdmin && (
-							<Link
-								className='bg-teal-700 hover:bg-teal-600 text-white px-3 py-1 rounded-md font-medium
-								transition duration-300 ease-in-out flex items-center'
-								to={"/secret-dashboard"}
-							>
-								<Lock className='inline-block mr-1' size={18} />
-								<span className='hidden sm:inline'>Dashboard</span>
-							</Link>
-						)}
+						
 
 						{user ? (
 							<button

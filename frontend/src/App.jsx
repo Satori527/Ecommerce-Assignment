@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -48,10 +47,7 @@ function App() {
 					<Route path='/' element={<HomePage />} />
 					<Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to='/' />} />
 					<Route path='/login' element={!user ? <LoginPage /> : <Navigate to='/' />} />
-					<Route
-						path='/secret-dashboard'
-						element={user?.role === "admin" ? <AdminPage /> : <Navigate to='/login' />}
-					/>
+					
 					<Route path='/shop' element={<ShopPage />} />
 					<Route path='/products/:productId' element={<SingleProductPage />} />
 					<Route path='/category/:category' element={<CategoryPage />} />

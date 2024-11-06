@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 
-import analyticsRoutes from "./routes/analytics.route.js";
 import authRoutes from "./routes/auth.route.js";
 import cartRoutes from "./routes/cart.route.js";
 import couponRoutes from "./routes/coupon.route.js";
@@ -31,7 +30,6 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
-app.use("/api/analytics", analyticsRoutes);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));

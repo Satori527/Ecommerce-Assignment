@@ -1,5 +1,5 @@
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
+//import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 
@@ -12,11 +12,11 @@ import productRoutes from "../routes/product.route.js";
 
 import { connectDB } from "../lib/db.js";
 
-dotenv.config(
-	{
-		path: '../.env',
-	}
-);
+// dotenv.config(
+// 	{
+// 		path: '../.env',
+// 	}
+// );
 
 const app = express();
 const PORT = process.env.PORT || 5000;

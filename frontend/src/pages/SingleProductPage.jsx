@@ -49,7 +49,7 @@ export default function SingleProductPage() {
                     </div>
                     <div className='flex flex-col gap-4 w-full justify-start items-start'>
                         <p className='text-4xl font-bold px-2 text-cyan-400'>${singleProduct?.price}</p>
-                        <button className='w-full bg-teal-600 text-white rounded-lg px-2 py-4 hover:bg-teal-700 hover:scale-105' onClick={handleAddToCart}>Add to cart</button>
+                        <button className='w-full bg-teal-600 text-white rounded-lg px-2 py-4 hover:bg-teal-700 hover:scale-102' onClick={handleAddToCart}>Add to cart</button>
                     </div>
                     
                 

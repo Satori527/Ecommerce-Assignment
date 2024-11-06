@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node -r dotenv/config --experimental-json-modules api/index.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules api/index.js",
     "start": "node api/index.js"
   },
   "author": "",

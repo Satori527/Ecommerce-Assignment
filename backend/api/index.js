@@ -45,3 +45,7 @@ app.listen(PORT, () => {
 	console.log("api Server is running on http://localhost:" + PORT);
 	connectDB();
 });
+
+app.get('/', function(req, res, next) {
+    res.send("Hello world");
+});

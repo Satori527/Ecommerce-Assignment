@@ -4,19 +4,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 
-
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const { login, loading } = useUserStore();
-	
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(email, password);
 		login(email, password);
-		
 	};
 
 	return (
@@ -27,7 +24,7 @@ const LoginPage = () => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8 }}
 			>
-				<h2 className='mt-6 text-center text-3xl font-extrabold text-teal-400'>Create your account</h2>
+				<h2 className='mt-6 text-center text-3xl font-extrabold text-teal-400'>Log in to your account</h2>
 			</motion.div>
 
 			<motion.div
@@ -36,7 +33,7 @@ const LoginPage = () => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, delay: 0.2 }}
 			>
-				<div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+				<div className='bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-700'>
 					<form onSubmit={handleSubmit} className='space-y-6'>
 						<div>
 							<label htmlFor='email' className='block text-sm font-medium text-gray-300'>

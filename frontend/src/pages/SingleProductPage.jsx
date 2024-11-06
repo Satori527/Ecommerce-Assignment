@@ -1,9 +1,11 @@
 import { Star } from 'lucide-react';
 //import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useCartStore } from '../stores/useCartStore';
 import { useProductStore } from "../stores/useProductStore";
+import { useUserStore } from "../stores/useUserStore";
 
 export default function SingleProductPage() {
 
@@ -15,6 +17,18 @@ export default function SingleProductPage() {
     const { fetchSingleProduct, singleProduct, loading } = useProductStore();
 
     const { addToCart } = useCartStore();
+
+    const { user } = useUserStore();
+
+	const handleAddToCart = () => {
+		if (!user) {
+			toast.error("Please login to add products to cart", { id: "login" });
+			return;
+		} else {
+			// add to cart
+			addToCart(singleProduct);
+		}
+	};
 
     useEffect(() => {
         fetchSingleProduct(productId);
@@ -35,7 +49,7 @@ export default function SingleProductPage() {
                     </div>
                     <div className='flex flex-col gap-4 w-full justify-start items-start'>
                         <p className='text-4xl font-bold px-2 text-cyan-400'>${singleProduct?.price}</p>
-                        <button className='w-full bg-teal-600 text-white rounded-lg px-2 py-4 hover:bg-teal-700 hover:scale-105' onClick={() => addToCart(singleProduct)}>Add to cart</button>
+                        <button className='w-full bg-teal-600 text-white rounded-lg px-2 py-4 hover:bg-teal-700 hover:scale-105' onClick={handleAddToCart}>Add to cart</button>
                     </div>
                     
                 

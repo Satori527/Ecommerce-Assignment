@@ -1,22 +1,14 @@
 import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import GiftCouponCard from "../components/GiftCouponCard";
 import OrderSummary from "../components/OrderSummary";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
 import { useCartStore } from "../stores/useCartStore";
-import { useUserStore } from "../stores/useUserStore";
 
 const CartPage = () => {
-	const { cart,getCartItems } = useCartStore();
-	const { user } = useUserStore();
-
-	useEffect(() => {
-		getCartItems(user?._id);
-	}, [getCartItems, user]);
-	
+	const { cart } = useCartStore();
 
 	return (
 		<div className='py-8 md:py-16'>
@@ -33,7 +25,7 @@ const CartPage = () => {
 						) : (
 							<div className='space-y-6'>
 								{cart.map((item) => (
-									<CartItem key={item.productId} item={item} />
+									<CartItem key={item._id} item={item} />
 								))}
 							</div>
 						)}
@@ -69,7 +61,7 @@ const EmptyCartUI = () => (
 		<h3 className='text-2xl font-semibold '>Your cart is empty</h3>
 		<p className='text-gray-400'>Looks like you {"haven't"} added anything to your cart yet.</p>
 		<Link
-			className='mt-4 rounded-md bg-emerald-500 px-6 py-2 text-white transition-colors hover:bg-emerald-600'
+			className='mt-4 rounded-md bg-emerald-500 px-6 py-2 text-white transition-colors hover:bg-teal-600'
 			to='/'
 		>
 			Start Shopping

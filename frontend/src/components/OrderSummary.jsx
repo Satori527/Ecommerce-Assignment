@@ -11,11 +11,6 @@ const stripePromise = loadStripe(
 
 const OrderSummary = () => {
 	const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore();
-	console.log("coupon", coupon);
-	console.log("cart", cart);
-	console.log("subtotal", subtotal);
-	console.log("total", total);
-	console.log("isCouponApplied", isCouponApplied);
 
 	const savings = subtotal - total;
 	const formattedSubtotal = subtotal.toFixed(2);
@@ -23,21 +18,18 @@ const OrderSummary = () => {
 	const formattedSavings = savings.toFixed(2);
 
 	const handlePayment = async () => {
+		console.log("handlePayment called");
+		console.log("products", cart);
 		const stripe = await stripePromise;
-		console.log("stripe", stripe);
 		const res = await axios.post("/payments/create-checkout-session", {
 			products: cart,
 			couponCode: coupon ? coupon.code : null,
 		});
-		console.log("res", res);
 
 		const session = res.data;
-		console.log("session", session);
 		const result = await stripe.redirectToCheckout({
 			sessionId: session.id,
-			
 		});
-		console.log("result", result);
 
 		if (result.error) {
 			console.error("Error:", result.error);

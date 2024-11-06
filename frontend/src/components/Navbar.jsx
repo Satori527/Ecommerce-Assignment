@@ -1,4 +1,4 @@
-import { Lock, LogIn, LogOut, ShoppingCart, UserPlus } from "lucide-react";
+import { Lock, LogIn, LogOut, ShoppingBagIcon, ShoppingCart, UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "../stores/useCartStore";
 import { useUserStore } from "../stores/useUserStore";
@@ -6,54 +6,28 @@ import { useUserStore } from "../stores/useUserStore";
 const Navbar = () => {
 	const { user, logout } = useUserStore();
 	const isAdmin = user?.role === "admin";
-	//const [totalItems, setTotalItems] = useState(0);
-	const { totalItems } = useCartStore();
-
-	//console.log("cart", cart);
-	// const calculateItems = () => {
-	// 	let items = 0;
-	// 	user?.cartItems?.forEach(element => {
-	// 		items = items + element.quantity;
-	// 	});
-
-
-	// const useCalculate = () => {
-	// 	useMemo(() => {
-	// 		setTotalItems(user.cartItems.reduce(( total, item) => total + item.quantity, 0));
-	// 	}, [user.cartItems]);
-	// };
-
-	// useEffect(() => {
-		
-	// 	calculateItems();
-	// }, []);
-
-
-
-
+	const { cart, totalItems } = useCartStore();
 
 	return (
 		<header className='fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-cyan-700'>
 			<div className='container mx-auto px-4 py-3'>
 				<div className='flex flex-wrap justify-between items-center'>
-					<Link to='/' className='text-2xl font-bold text-teal-400 items-center space-x-2 flex'>
-						E-Commerce
+					<Link to='/' className='text-2xl font-bold text-teal-400 items-center space-x-2 flex flex-row gap-2'>
+						<ShoppingBagIcon className='inline-block' size={28} />ZE-Comm
 					</Link>
-					
 
-					<nav className='flex flex-wrap items-center gap-4'>
+					<nav className='flex flex-wrap items-center gap-8'>
 						<Link
 							to={"/"}
-							className='text-gray-300 hover:text-teal-400 transition duration-300
+							className='text-gray-300 hover:text-teal-400 transition duration-300 text-lg font-medium
 					ease-in-out'
 						>
 							Home
 						</Link>
-
 						<Link
 							to={"/shop"}
 							className='text-gray-300 hover:text-teal-400 transition duration-300
-						ease-in-out'
+						ease-in-out font-medium text-lg'
 						>
 							Shop
 						</Link>
@@ -61,18 +35,18 @@ const Navbar = () => {
 							<Link
 								to={"/cart"}
 								className='relative group text-gray-300 hover:text-teal-400 transition duration-300
-							ease-in-out'
+							ease-in-out font-medium text-lg flex items-center'
 							>
-								<ShoppingCart className='inline-block mr-1 group-hover:text-teal-400' size={20} />
+								<ShoppingCart className='inline-block mr-1 group-hover:text-teal-400' size={24} />
 								<span className='hidden sm:inline'>Cart</span>
-								
+								{cart.length > 0 && (
 									<span
-										className='absolute -top-2 -left-2 bg-teal-500 text-white rounded-full px-2 py-0.5 
+										className='absolute -top-2 -left-2 bg-teal-500 text-white rounded-full px-2 py-0.5
 									text-xs group-hover:bg-teal-400 transition duration-300 ease-in-out'
 									>
 										{totalItems}
 									</span>
-								
+								)}
 							</Link>
 						)}
 						{isAdmin && (

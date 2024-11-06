@@ -20,7 +20,7 @@ import { useUserStore } from "./stores/useUserStore";
 
 function App() {
 	const { user, checkAuth, checkingAuth } = useUserStore();
-	const { getCartItems, cart } = useCartStore();
+	const { getCartItems } = useCartStore();
 	useEffect(() => {
 		checkAuth();
 	}, [checkAuth]);
@@ -28,9 +28,7 @@ function App() {
 	useEffect(() => {
 		if (!user) return;
 
-		console.log("gtcart", user);
-		getCartItems(user._id);
-		console.log("cart", cart);
+		getCartItems();
 	}, [getCartItems, user]);
 
 	if (checkingAuth) return <LoadingSpinner />;
@@ -54,8 +52,8 @@ function App() {
 						path='/secret-dashboard'
 						element={user?.role === "admin" ? <AdminPage /> : <Navigate to='/login' />}
 					/>
-					<Route path='/products/:productId' element={<SingleProductPage />} />
 					<Route path='/shop' element={<ShopPage />} />
+					<Route path='/products/:productId' element={<SingleProductPage />} />
 					<Route path='/category/:category' element={<CategoryPage />} />
 					<Route path='/cart' element={user ? <CartPage /> : <Navigate to='/login' />} />
 					<Route

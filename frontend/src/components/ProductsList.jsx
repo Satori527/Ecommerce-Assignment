@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Star, Trash } from "lucide-react";
+import { Trash, Star } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
 
 const ProductsList = () => {
@@ -9,12 +9,12 @@ const ProductsList = () => {
 
 	return (
 		<motion.div
-			className='bg-gray-800 shadow-lg rounded-lg overflow-hidden max-w-full mx-auto'
+			className='bg-gray-800 shadow-lg rounded-lg overflow-hidden max-w-4xl mx-auto'
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.8 }}
 		>
-			<table className='w-full divide-y divide-gray-700'>
+			<table className=' min-w-full divide-y divide-gray-700'>
 				<thead className='bg-gray-700'>
 					<tr>
 						<th
@@ -60,11 +60,11 @@ const ProductsList = () => {
 										<img
 											className='h-10 w-10 rounded-full object-cover'
 											src={product.image}
-											alt={product.title}
+											alt={product.name}
 										/>
 									</div>
 									<div className='ml-4'>
-										<div className='text-sm font-medium text-white'>{product.title}</div>
+										<div className='text-sm font-medium text-white'>{product.name}</div>
 									</div>
 								</div>
 							</td>

@@ -1,5 +1,5 @@
-import { redis } from "../lib/redis.js";
 import cloudinary from "../lib/cloudinary.js";
+import { redis } from "../lib/redis.js";
 import Product from "../models/product.model.js";
 
 export const getAllProducts = async (req, res) => {
@@ -95,12 +95,13 @@ export const getRecommendedProducts = async (req, res) => {
 	try {
 		const products = await Product.aggregate([
 			{
-				$sample: { size: 4 },
+				$sample: { size: 8 },
 			},
 			{
 				$project: {
 					_id: 1,
-					name: 1,
+					productId: 1,
+					title: 1,
 					description: 1,
 					image: 1,
 					price: 1,

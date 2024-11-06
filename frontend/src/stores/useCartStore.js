@@ -4,6 +4,7 @@ import axios from "../lib/axios";
 
 export const useCartStore = create((set, get) => ({
 	cart: [],
+	cartItems: [],
 	totalItems: 0,
 	coupon: null,
 	total: 0,
@@ -34,38 +35,44 @@ export const useCartStore = create((set, get) => ({
 		toast.success("Coupon removed");
 	},
 
-	getCartItems: async (id) => {
-		
+	getCartItems: async () => {
+		console.log("getCartItems called");
 		try {
-			console.log("getCartItemsTry");
-			const res = await axios.get("/cart",{params:{id:id}});
-			console.log("res", res);
-			set({ cart: res.data.cartItems, totalItems: res.data.totalItems });
-			//get().calculateTotals();
+			const res = await axios.get("/cart");
+			console.log("res",res);
+			set({ cart: res.data,totalItems:0 });
+			res.data.forEach((item) => {
+				set((prevState) => ({ totalItems: prevState.totalItems + item.quantity }));
+			})
+			console.log("totalItems", get().totalItems);
+			get().calculateTotals();
 		} catch (error) {
 			set({ cart: [] });
-			console.error("Error fetching cart items:", error);
-			toast.error(error?.response.data.message || "Failed to fetch cart items");
+			toast.error(error.response.data.message || "An error occurred");
 		}
 	},
 	clearCart: async () => {
-		set({ cart: [], coupon: null, total: 0, subtotal: 0 ,totalItems: 0, isCouponApplied: false});
+		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
 	},
 	addToCart: async (product) => {
-		console.log("cart product",product);
 		try {
-			await axios.post("/cart", { productId: product.id });
-			toast.success("Product added to cart");
+			const res = await axios.post("/cart", { productId: product.id, cartProducts: get().cart });
+			console.log("res",res);
 
-			set((prevState) => {
-				const existingItem = prevState.cart.find((item) => item.id === product.id);
-				const newCart = existingItem
-					? prevState.cart.map((item) =>
-							item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-					  )
-					: [...prevState.cart, { ...product, quantity: 1 }];
-				return { cart: newCart };
-			});
+			set({ cart: res.data.cartProducts, cartItems: res.data.cartItems });
+			set((prevState) => ({ totalItems: prevState.totalItems + 1 }));
+			toast.success("Product added to cart");
+			console.log("totalItems", get().totalItems);
+
+			// set((prevState) => {
+			// 	const existingItem = prevState.cart.find((item) => item._id === product._id);
+			// 	const newCart = existingItem
+			// 		? prevState.cart.map((item) =>
+			// 				item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+			// 		)
+			// 		: [...prevState.cart, { ...product, quantity: 1 }];
+			// 	return { cart: newCart };
+			// });
 			get().calculateTotals();
 		} catch (error) {
 			toast.error(error.response.data.message || "An error occurred");
@@ -73,19 +80,22 @@ export const useCartStore = create((set, get) => ({
 	},
 	removeFromCart: async (productId) => {
 		await axios.delete(`/cart`, { data: { productId } });
-		set((prevState) => ({ cart: prevState.cart.filter((item) => item.id !== productId) }));
+		set((prevState) => ({ totalItems: prevState.totalItems - prevState.cart.find((item) => item.productId === productId).quantity, cart: prevState.cart.filter((item) => item.productId !== productId) }));
+		
 		get().calculateTotals();
 	},
-	updateQuantity: async (productId, quantity) => {
+	updateQuantity: async (productId, quantity, isIncrement) => {
 		if (quantity === 0) {
 			get().removeFromCart(productId);
 			return;
 		}
 
-		await axios.put(`/cart/${productId}`, { quantity });
+		await axios.put("/cart", { quantity, productId });
 		set((prevState) => ({
-			cart: prevState.cart.map((item) => (item.id === productId ? { ...item, quantity } : item)),
+			cart: prevState.cart.map((item) => (item.productId === productId ? { ...item, quantity } : item)),
 		}));
+
+		set((prevState) => ({ totalItems: isIncrement ? prevState.totalItems + 1 : prevState.totalItems - 1 }));
 		get().calculateTotals();
 	},
 	calculateTotals: () => {

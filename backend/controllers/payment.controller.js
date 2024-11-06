@@ -1,11 +1,11 @@
 import { stripe } from "../lib/stripe.js";
 import Coupon from "../models/coupon.model.js";
 import Order from "../models/order.model.js";
+import User from "../models/user.model.js";
 
 export const createCheckoutSession = async (req, res) => {
 	try {
 		const { products, couponCode } = req.body;
-		console.log("couponCode", couponCode);
 		console.log("products", products);
 
 		if (!Array.isArray(products) || products.length === 0) {
@@ -50,7 +50,7 @@ export const createCheckoutSession = async (req, res) => {
 						{
 							coupon: await createStripeCoupon(coupon.discountPercentage),
 						},
-				]
+				  ]
 				: [],
 			metadata: {
 				userId: req.user._id.toString(),
@@ -65,6 +65,9 @@ export const createCheckoutSession = async (req, res) => {
 			},
 		});
 
+		//console.log("session");
+		
+		//console.log("cartempty");
 		if (totalAmount >= 20000) {
 			await createNewCoupon(req.user._id);
 		}
@@ -107,6 +110,12 @@ export const checkoutSuccess = async (req, res) => {
 			});
 
 			await newOrder.save();
+
+			await User.findByIdAndUpdate(req.user._id, {
+				$set: {
+					cartItems: [],
+				},
+			});
 
 			res.status(200).json({
 				success: true,

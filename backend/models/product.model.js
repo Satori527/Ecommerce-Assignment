@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
-	{	productId: {
-		type: Number,
-		required: true,
-		unique: true,
-		min: 0,
-		index: true,
-	},
+	{
+		productId: {
+			type: Number,
+			required: true,
+			unique: true,
+			min: 0,
+			index: true,
+		},
 		title: {
 			type: String,
 			required: true,
@@ -29,10 +30,6 @@ const productSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		isFeatured: {
-			type: Boolean,
-			default: false,
-		},
 		rating: {
 			rate:{
 				type: Number,
@@ -44,7 +41,11 @@ const productSchema = new mongoose.Schema(
 				type: Number,
 				default: 0,
 			}
-		}
+		},
+		isFeatured: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true }
 );
